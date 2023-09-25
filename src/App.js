@@ -66,6 +66,26 @@ function App() {
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
     },
+    {
+      name: "Natalie Rivero13",
+      phoneNumber: "123-456-7890",
+      lastFloated: "2023-09-20",
+    },
+    {
+      name: "Natalie Rivero14",
+      phoneNumber: "123-456-7890",
+      lastFloated: "2023-09-20",
+    },
+    {
+      name: "Natalie Rivero15",
+      phoneNumber: "123-456-7890",
+      lastFloated: "2023-09-20",
+    },
+    {
+      name: "Natalie Rivero16",
+      phoneNumber: "123-456-7890",
+      lastFloated: "2023-09-20",
+    },
     // Add more objects as needed
   ];
 
@@ -149,13 +169,14 @@ function App() {
             <Button
               className="RemovePersonButton"
               variant="danger"
+              size="sm"
               onClick={() => {
                 handleRemovePerson(selectedNurse.name);
               }}
             >
               Remove from today
             </Button>
-            <Button variant="success" onClick={handleClose}>
+            <Button variant="success" size="sm" onClick={handleClose}>
               Float this person
             </Button>
           </Modal.Footer>
