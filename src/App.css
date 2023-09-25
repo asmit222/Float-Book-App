@@ -146,3 +146,8 @@ input:focus {
   width: 95vw !important;
   margin-left: 2.5vw;
 }
+
+.floating {
+  background-color: rgb(255, 252, 72) !important;
+  overflow-x: auto;
+}

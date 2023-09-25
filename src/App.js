@@ -10,81 +10,97 @@ function App() {
       name: "Natalie Rivero",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero2",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-22",
+      floating: false,
     },
     {
       name: "Natalie Rivero3",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-21",
+      floating: false,
     },
     {
       name: "Natalie Rivero4",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero5",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-06-30",
+      floating: false,
     },
     {
       name: "Natalie Rivero6",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero7",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero8",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero9",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero10",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero11",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero12",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero13",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero14",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero15",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     {
       name: "Natalie Rivero16",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
+      floating: false,
     },
     // Add more objects as needed
   ];
@@ -100,12 +116,26 @@ function App() {
   };
 
   const handleRemovePerson = (name) => {
+    const updatedData = [...data];
+    let nurse = findObjectByName(data, name);
+    nurse.floating = false;
+    setData(updatedData);
+
     const updatedSelectedItems = selectedItems.filter(
       (itemName) => itemName !== name
     );
 
     // Update the selectedItems state with the filtered array
     setSelectedItems(updatedSelectedItems);
+    setShow(false);
+  };
+
+  const handleFloat = (name) => {
+    const updatedData = [...data];
+    let nurse = findObjectByName(data, name);
+    nurse.floating = true;
+    setData(updatedData);
+
     setShow(false);
   };
 
@@ -116,6 +146,7 @@ function App() {
   };
 
   function findObjectByName(array, nameToFind) {
+    console.log(array, nameToFind);
     for (let i = 0; i < array.length; i++) {
       if (array[i].name === nameToFind) {
         return array[i];
@@ -176,7 +207,11 @@ function App() {
             >
               Remove from today
             </Button>
-            <Button variant="success" size="sm" onClick={handleClose}>
+            <Button
+              variant="success"
+              size="sm"
+              onClick={() => handleFloat(selectedNurse.name)}
+            >
               Float this person
             </Button>
           </Modal.Footer>
@@ -217,19 +252,26 @@ function App() {
               <tbody>
                 {selectedItems.map((itemName, index) => {
                   // Find the corresponding object in initialData based on the name
-                  const selectedItem = initialData.find(
+                  const selectedItem = data.find(
                     (item) => item.name === itemName
                   );
                   return (
                     <tr
                       key={index}
-                      className={index % 2 === 0 ? "even-row" : "odd-row"}
+                      className={
+                        selectedItem.floating
+                          ? "floating"
+                          : index % 2 === 0
+                          ? "even-row"
+                          : "odd-row"
+                      }
                     >
                       <td
                         onClick={() => {
                           handleShowModal(selectedItem.name);
                         }}
-                        className="tableData"
+                        className={`tableData
+                        `}
                       >
                         {selectedItem.name}
                       </td>
