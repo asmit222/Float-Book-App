@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -14,12 +14,12 @@ function App() {
     {
       name: "Natalie Rivero2",
       phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
+      lastFloated: "2023-09-22",
     },
     {
       name: "Natalie Rivero3",
       phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
+      lastFloated: "2023-09-21",
     },
     {
       name: "Natalie Rivero4",
@@ -29,7 +29,7 @@ function App() {
     {
       name: "Natalie Rivero5",
       phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
+      lastFloated: "2023-06-30",
     },
     {
       name: "Natalie Rivero6",
@@ -79,6 +79,16 @@ function App() {
     setShow(false);
   };
 
+  const handleRemovePerson = (name) => {
+    const updatedSelectedItems = selectedItems.filter(
+      (itemName) => itemName !== name
+    );
+
+    // Update the selectedItems state with the filtered array
+    setSelectedItems(updatedSelectedItems);
+    setShow(false);
+  };
+
   const handleShowModal = (name) => {
     setShow(true);
     let nurse = findObjectByName(initialData, name);
@@ -113,22 +123,40 @@ function App() {
     setData(filteredData);
   };
 
+  // Function to sort data by last floated date
+  const sortDataByLastFloated = (dataArray) => {
+    return dataArray.slice().sort((a, b) => {
+      // Convert date strings to Date objects for comparison
+      const dateA = new Date(a.lastFloated);
+      const dateB = new Date(b.lastFloated);
+
+      // Compare the dates
+      return dateA - dateB;
+    });
+  };
+
   return (
     <div className="App">
       <div id="headerContainer">
         <h1 className="headerFloatBook">Float Book</h1>
       </div>
       <div className="mainContainer">
-        <Modal centered show={show} onHide={handleClose}>
+        <Modal className="nurseModal" centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{selectedNurse.name}</Modal.Title>
           </Modal.Header>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
+            <Button
+              className="RemovePersonButton"
+              variant="danger"
+              onClick={() => {
+                handleRemovePerson(selectedNurse.name);
+              }}
+            >
+              Remove from today
             </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
+            <Button variant="success" onClick={handleClose}>
+              Float this person
             </Button>
           </Modal.Footer>
         </Modal>

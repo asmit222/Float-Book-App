@@ -5,7 +5,7 @@
 }
 
 #root {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 
@@ -133,4 +133,14 @@ input {
 
 input:focus {
   outline: none;
+}
+
+.RemovePersonButton {
+  position: absolute;
+  left: 0;
+}
+
+.nurseModal {
+  width: 95vw !important;
+  margin-left: 2.5vw;
 }
