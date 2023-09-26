@@ -134,6 +134,7 @@ function App() {
     const updatedData = [...data];
     let nurse = findObjectByName(data, name);
     nurse.floating = true;
+    nurse.lastFloated = "NOW";
     setData(updatedData);
 
     setShow(false);
