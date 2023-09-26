@@ -418,6 +418,15 @@ function App() {
           <Modal.Header closeButton>
             <Modal.Title>{selectedNurse.name}</Modal.Title>
           </Modal.Header>
+          <Modal.Body>
+            {selectedNurse.lastFloated !== "no float yet"
+              ? `Last floated on ${selectedNurse.lastFloated} to ${
+                  selectedNurse.floatingTo !== ""
+                    ? selectedNurse.floatingTo
+                    : "n/a"
+                }`
+              : `no float yet`}
+          </Modal.Body>
           <Modal.Footer className="floatModalFooter">
             <Button
               className="RemovePersonButton"
@@ -516,9 +525,19 @@ function App() {
                         }}
                         className="tableData"
                       >
-                        {selectedItem?.lastFloated === formatDate(new Date())
-                          ? "TODAY"
-                          : selectedItem?.lastFloated}
+                        <span>
+                          {selectedItem?.lastFloated === formatDate(new Date())
+                            ? "TODAY"
+                            : selectedItem?.lastFloated}
+                        </span>
+                        {index === 0 &&
+                          selectedItem?.lastFloated !==
+                            formatDate(new Date()) && (
+                            <span>
+                              <br></br>
+                              <span className="nextUpText">next up</span>
+                            </span>
+                          )}
                       </td>
                     </tr>
                   );

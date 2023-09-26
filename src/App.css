@@ -158,7 +158,9 @@ input:focus {
 }
 
 .floating {
-  background-color: rgb(255, 252, 72) !important;
+  background-color: #8d42be !important;
+  color: white;
+  font-weight: 600;
   overflow-x: auto;
 }
 
@@ -207,4 +209,14 @@ input:focus {
 
 .floatModalFooter {
   min-height: 50px;
+}
+
+.nextUpText {
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  font-size: xx-small;
+  background-color: #f24a75;
+  padding: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
