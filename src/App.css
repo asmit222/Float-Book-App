@@ -150,6 +150,16 @@ input:focus {
   margin-left: 2.5vw;
 }
 
+.textSentModal {
+  width: 90vw !important;
+  margin-left: 5vw;
+}
+
+.textFailedSentModal {
+  width: 100vw !important;
+  background-color: rgba(252, 59, 59, 0.219);
+}
+
 .floating {
   background-color: rgb(255, 252, 72) !important;
   overflow-x: auto;
@@ -169,4 +179,22 @@ input:focus {
   font-size: 1.5rem;
   margin-left: 4rem;
   color: rgb(230, 233, 52);
+}
+
+.selected-icon {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1); /* Initial scale (no change) */
+  }
+  50% {
+    transform: scale(1.2); /* Scale up to 1.2x at 50% */
+    opacity: 1; /* Full opacity at 50% */
+  }
+  100% {
+    transform: scale(1); /* Back to the original scale */
+    opacity: 0.7; /* Slightly lower opacity */
+  }
 }

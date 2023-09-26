@@ -4,117 +4,104 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.css";
+import axios from "axios";
+import initialData from "./data";
+import Form from "react-bootstrap/Form";
 
 function App() {
-  const initialData = [
-    {
-      name: "Albite, Sophia Joy",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Almara, Lobna",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-22",
-      floating: false,
-    },
-    {
-      name: "Ansari, Zubair A",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-21",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero4",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero5",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-06-30",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero6",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero7",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero8",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero9",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero10",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero11",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero12",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero13",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero14",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero15",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    {
-      name: "Natalie Rivero16",
-      phoneNumber: "123-456-7890",
-      lastFloated: "2023-09-20",
-      floating: false,
-    },
-    // Add more objects as needed
-  ];
-
   const [data, setData] = useState(initialData);
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [show, setShow] = useState(false);
   const [selectedNurse, setSelectedNurse] = useState({});
   const [filteredData, setFilteredData] = useState(initialData);
+  const [showSentTextModal, setShowSentTextModal] = useState(false);
+  const [showFailedSentTextModal, setShowFailedSentTextModal] = useState(false);
+  const [whereToFloatModal, setShowWhereToFLoatModal] = useState(false);
+  const [floatWhereInputBox, setFloatWhereInputBox] = useState("");
+  const [dayShift, setDayShift] = useState(true);
+  const [moonSelected, setMoonSelected] = useState("");
+  const [sunSelected, setSunSelected] = useState("selected-icon");
+  const [showPWModal, setShowPWModal] = useState(false);
+  const [pwInput, setPwInput] = useState("");
+  const [password, setPassword] = useState("password123");
 
   const handleClose = () => {
     setShow(false);
+  };
+
+  const handlePWChange = (e) => {
+    setPwInput(e.target.value);
+  };
+
+  const checkPW = () => {
+    if (pwInput === password) {
+      setShowPWModal(false);
+      localStorage.setItem("password", password);
+    } else {
+      alert("password is incorrect");
+    }
+  };
+
+  const handleFloatWhereChange = (e) => {
+    setFloatWhereInputBox(e.target.value);
+  };
+
+  const handleCloseWhereToFloatModal = () => {
+    setShowWhereToFLoatModal(false);
+  };
+
+  const handleShowDayShift = () => {
+    // Save data to localStorage
+    localStorage.setItem("moonSelected", false);
+    localStorage.setItem("sunSelected", true);
+
+    setMoonSelected("");
+    setSunSelected("selected-icon");
+    let dayShiftOnly = initialData.filter((nurse) => nurse.dayShift);
+    setFilteredData(dayShiftOnly);
+    setDayShift(true);
+  };
+
+  const handleShowNightShift = () => {
+    localStorage.setItem("moonSelected", true);
+    localStorage.setItem("sunSelected", false);
+    setMoonSelected("selected-icon");
+    setSunSelected("");
+    let nightShiftOnly = initialData.filter((nurse) => !nurse.dayShift);
+    setFilteredData(nightShiftOnly);
+    setDayShift(false);
+  };
+
+  const sendPostRequest = () => {
+    selectedNurse.floatingTo = floatWhereInputBox;
+    axios
+      .post(
+        "https://float-book-server-8.fly.dev/api/sendFloatText",
+        selectedNurse
+      ) // Replace with the actual URL of your Express server
+      .then((response) => {
+        if (response.status === 200) {
+          setShowSentTextModal(true);
+          setTimeout(() => {
+            setShowSentTextModal(false);
+          }, 1000);
+        } else {
+          setShowFailedSentTextModal(true);
+          setTimeout(() => {
+            setShowFailedSentTextModal(false);
+          }, 1500);
+        }
+        // Handle success, you can access the response data here
+      })
+      .catch((error) => {
+        setShowFailedSentTextModal(true);
+        setTimeout(() => {
+          setShowFailedSentTextModal(false);
+        }, 1500);
+        // Handle error
+        console.error("Error:", error);
+      });
   };
 
   const handleRemovePerson = (name) => {
@@ -140,6 +127,8 @@ function App() {
     setData(updatedData);
 
     setShow(false);
+    setShowWhereToFLoatModal(false);
+    sendPostRequest();
   };
 
   const handleShowModal = (name) => {
@@ -149,7 +138,6 @@ function App() {
   };
 
   function findObjectByName(array, nameToFind) {
-    console.log(array, nameToFind);
     for (let i = 0; i < array.length; i++) {
       if (array[i].name === nameToFind) {
         return array[i];
@@ -165,15 +153,39 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    console.log(localStorage.getItem("moonSelected"));
+    console.log(localStorage.getItem("sunSelected"));
+    setMoonSelected(
+      localStorage.getItem("moonSelected") === "true" ? "selected-icon" : ""
+    );
+    setSunSelected(
+      localStorage.getItem("sunSelected") === "true" ? "selected-icon" : ""
+    );
+    if (localStorage.getItem("moonSelected") === "true") {
+      let nightShiftOnly = initialData.filter((nurse) => !nurse.dayShift);
+      setFilteredData(nightShiftOnly);
+      setDayShift(false);
+    } else if (localStorage.getItem("sunSelected") === "true") {
+      let dayShiftOnly = initialData.filter((nurse) => nurse.dayShift);
+      setFilteredData(dayShiftOnly);
+      setDayShift(true);
+    }
+    if (localStorage.getItem("password") !== password) {
+      setShowPWModal(true);
+    }
+  }, []);
+
   // Handle changes in the search input field
   const handleSearchChange = (e) => {
-    console.log(e.target.value);
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
     // Filter the data based on the search query
     const filteredData2 = initialData.filter((item) =>
-      item.name.toLowerCase().includes(query)
+      dayShift
+        ? item.name.toLowerCase().includes(query) && item.dayShift
+        : item.name.toLowerCase().includes(query) && !item.dayShift
     );
     setFilteredData(filteredData2);
   };
@@ -193,12 +205,98 @@ function App() {
   return (
     <div className="App">
       <div id="headerContainer">
-        <i className="fas fa-moon"></i>
-        <i className="fas fa-sun"></i>
+        <i
+          onClick={handleShowNightShift}
+          className={`fas fa-moon ${moonSelected}`}
+        ></i>
+        <i
+          onClick={handleShowDayShift}
+          className={`fas fa-sun ${sunSelected}`}
+        ></i>
 
         <h1 className="headerFloatBook">Float Book</h1>
       </div>
       <div className="mainContainer">
+        <Modal className="nurseModal" centered show={showPWModal}>
+          <Modal.Header>
+            <Modal.Title>Password?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {" "}
+            <Form>
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlTextarea1"
+              >
+                <Form.Control
+                  onChange={(e) => {
+                    handlePWChange(e);
+                  }}
+                  as="textarea"
+                  rows={1}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={() => checkPW(pwInput)}>
+              Enter
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          className="nurseModal"
+          centered
+          show={whereToFloatModal}
+          onHide={handleCloseWhereToFloatModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Float where?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {" "}
+            <Form>
+              <Form.Group
+                className="mb-1"
+                controlId="exampleForm.ControlTextarea1"
+              >
+                <Form.Control
+                  onChange={(e) => {
+                    handleFloatWhereChange(e);
+                  }}
+                  as="textarea"
+                  rows={1}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="success"
+              onClick={() => handleFloat(selectedNurse.name)}
+            >
+              Float
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal className="textSentModal" centered show={showSentTextModal}>
+          <Modal.Header>
+            <Modal.Title>{`Text sent to ${selectedNurse.name}`}</Modal.Title>
+          </Modal.Header>
+        </Modal>
+
+        <Modal
+          className="textFailedSentModal"
+          centered
+          show={showFailedSentTextModal}
+        >
+          <Modal.Header>
+            <Modal.Title>{`Failed to text ${selectedNurse.name}`}</Modal.Title>
+          </Modal.Header>
+        </Modal>
+
         <Modal className="nurseModal" centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{selectedNurse.name}</Modal.Title>
@@ -217,7 +315,10 @@ function App() {
             <Button
               variant="success"
               size="sm"
-              onClick={() => handleFloat(selectedNurse.name)}
+              onClick={() => {
+                setShowWhereToFLoatModal(true);
+                setFloatWhereInputBox("");
+              }}
             >
               Float this person
             </Button>
