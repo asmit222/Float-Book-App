@@ -3,23 +3,24 @@ import "./App.css";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 function App() {
   const initialData = [
     {
-      name: "Natalie Rivero",
+      name: "Albite, Sophia Joy",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-20",
       floating: false,
     },
     {
-      name: "Natalie Rivero2",
+      name: "Almara, Lobna",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-22",
       floating: false,
     },
     {
-      name: "Natalie Rivero3",
+      name: "Ansari, Zubair A",
       phoneNumber: "123-456-7890",
       lastFloated: "2023-09-21",
       floating: false,
@@ -192,6 +193,9 @@ function App() {
   return (
     <div className="App">
       <div id="headerContainer">
+        <i className="fas fa-moon"></i>
+        <i className="fas fa-sun"></i>
+
         <h1 className="headerFloatBook">Float Book</h1>
       </div>
       <div className="mainContainer">

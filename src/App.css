@@ -154,3 +154,19 @@ input:focus {
   background-color: rgb(255, 252, 72) !important;
   overflow-x: auto;
 }
+
+.fa-moon {
+  position: absolute;
+  left: 0;
+  font-size: 1.65rem;
+  margin-left: 1rem;
+  color: rgb(34, 34, 34);
+}
+
+.fa-sun {
+  position: absolute;
+  left: 0;
+  font-size: 1.5rem;
+  margin-left: 4rem;
+  color: rgb(230, 233, 52);
+}
