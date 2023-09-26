@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import axios from "axios";
-// import initialData from "./data";
+import initialData1 from "./data";
 import Form from "react-bootstrap/Form";
 import {
   updateDoc,
@@ -16,6 +16,7 @@ import {
   getDocs,
 } from "@firebase/firestore";
 import { db } from "./firebaseConfig/firebase.js";
+import FormCheckInput from "react-bootstrap/esm/FormCheckInput";
 
 function App() {
   const [initialData, setInitialData] = useState([]);
@@ -189,6 +190,7 @@ function App() {
     const updatedData = [...data];
     let nurse = findObjectByName(data, name);
     nurse.floating = true;
+    nurse.floatingTo = floatWhereInputBox;
     if (nurse.lastFloated !== formatDate(new Date())) {
       nurse.prevFloatDay = nurse.lastFloated;
     }
@@ -233,17 +235,34 @@ function App() {
     updateDoc(docRef, { 0: updatedData });
   };
 
+  function sortByLastFloated(namesArray) {
+    return namesArray.sort((a, b) => {
+      // Parse date strings into Date objects
+      let nurseA = findObjectByName(data, a);
+      let nurseB = findObjectByName(data, b);
+
+      if (nurseA.lastFloated === "no float yet") {
+        return -1;
+      }
+
+      const dateA = new Date(nurseA.lastFloated);
+      const dateB = new Date(nurseB.lastFloated);
+
+      // Compare the two Date objects
+      if (dateA < dateB) {
+        return -1; // 'a' should come before 'b'
+      } else if (dateA > dateB) {
+        return 1; // 'a' should come after 'b'
+      } else {
+        return 0; // Dates are equal
+      }
+    });
+  }
+
   useEffect(() => {
     fetchStaffData()
       .then((data) => {
         setInitialData(data[0][0]);
-      })
-      .then(() => {
-        // if (localStorage.getItem("moonSelected") === "true") {
-        //   handleShowNightShift();
-        // } else if (localStorage.getItem("sunSelected") === "true") {
-        //   handleShowDayShift();
-        // }
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -269,6 +288,9 @@ function App() {
     if (localStorage.getItem("password") !== password) {
       setShowPWModal(true);
     }
+
+    // const docRef = doc(db, "staff", "staff");
+    // updateDoc(docRef, { 0: initialData1 });
   }, []);
 
   // Handle changes in the search input field
@@ -455,7 +477,7 @@ function App() {
                 <td>Last Floated</td>
               </thead>
               <tbody>
-                {selectedItems.map((itemName, index) => {
+                {sortByLastFloated(selectedItems).map((itemName, index) => {
                   // Find the corresponding object in initialData based on the name
                   const selectedItem = data.find(
                     (item) => item.name === itemName
@@ -494,7 +516,9 @@ function App() {
                         }}
                         className="tableData"
                       >
-                        {selectedItem?.lastFloated}
+                        {selectedItem?.lastFloated === formatDate(new Date())
+                          ? "TODAY"
+                          : selectedItem?.lastFloated}
                       </td>
                     </tr>
                   );
