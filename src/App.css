@@ -13,11 +13,6 @@
   position: absolute;
   top: 0;
   background-color: #02605f;
-  /* height: auto; */
-  /* padding-left: 6rem;
-  padding-right: 6rem;
-  padding-top: 6rem;
-  padding-bottom: 6rem; */
   height: 100%;
   width: 100vw;
   text-align: center;
@@ -197,4 +192,8 @@ input:focus {
     transform: scale(1); /* Back to the original scale */
     opacity: 0.7; /* Slightly lower opacity */
   }
+}
+
+.floatModalFooter {
+  min-height: 50px;
 }

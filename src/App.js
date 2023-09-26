@@ -5,16 +5,26 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import axios from "axios";
-import initialData from "./data";
+// import initialData from "./data";
 import Form from "react-bootstrap/Form";
+import {
+  updateDoc,
+  doc,
+  onSnapshot,
+  getFirestore,
+  collection,
+  getDocs,
+} from "@firebase/firestore";
+import { db } from "./firebaseConfig/firebase.js";
 
 function App() {
-  const [data, setData] = useState(initialData);
+  const [initialData, setInitialData] = useState([]);
+  const [data, setData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [show, setShow] = useState(false);
   const [selectedNurse, setSelectedNurse] = useState({});
-  const [filteredData, setFilteredData] = useState(initialData);
+  const [filteredData, setFilteredData] = useState([]);
   const [showSentTextModal, setShowSentTextModal] = useState(false);
   const [showFailedSentTextModal, setShowFailedSentTextModal] = useState(false);
   const [whereToFloatModal, setShowWhereToFLoatModal] = useState(false);
@@ -24,7 +34,42 @@ function App() {
   const [sunSelected, setSunSelected] = useState("selected-icon");
   const [showPWModal, setShowPWModal] = useState(false);
   const [pwInput, setPwInput] = useState("");
-  const [password, setPassword] = useState("password123");
+  const [password, setPassword] = useState("4tfloatbook");
+
+  async function fetchStaffData() {
+    const collectionName = "staff";
+    const staffCollection = collection(db, collectionName);
+
+    try {
+      const querySnapshot = await getDocs(staffCollection);
+      const staffData = [];
+
+      querySnapshot.forEach((doc) => {
+        const staffMember = doc.data();
+        staffData.push(staffMember);
+      });
+
+      return staffData;
+    } catch (error) {
+      console.error("Error fetching data from Firestore:", error);
+      throw error;
+    }
+  }
+
+  useEffect(() => {
+    setFilteredData(initialData);
+    setData(initialData);
+    let initialSelectedItems = [...initialData]
+      .filter((staff) => staff.selected === formatDate(new Date()))
+      .map((item) => item.name);
+    console.log(JSON.stringify(initialSelectedItems));
+    setSelectedItems(initialSelectedItems);
+    if (localStorage.getItem("moonSelected") === "true") {
+      handleShowNightShift();
+    } else if (localStorage.getItem("sunSelected") === "true") {
+      handleShowDayShift();
+    }
+  }, [initialData]);
 
   const handleClose = () => {
     setShow(false);
@@ -108,23 +153,50 @@ function App() {
     const updatedData = [...data];
     let nurse = findObjectByName(data, name);
     nurse.floating = false;
-    setData(updatedData);
+    setInitialData(updatedData);
 
     const updatedSelectedItems = selectedItems.filter(
       (itemName) => itemName !== name
     );
+
+    if (
+      nurse.prevFloatDay !== "no float yet" ||
+      nurse.lastFloated === formatDate(new Date())
+    ) {
+      nurse.lastFloated = nurse.prevFloatDay;
+    }
+    // nurse.prevFloatDay = "no float yet";
+    nurse.selected = false;
+    setInitialData(updatedData);
+
+    const docRef = doc(db, "staff", "staff");
+    updateDoc(docRef, { 0: updatedData });
 
     // Update the selectedItems state with the filtered array
     setSelectedItems(updatedSelectedItems);
     setShow(false);
   };
 
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is zero-based, so add 1
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${month}-${day}-${year}`;
+  }
+
   const handleFloat = (name) => {
     const updatedData = [...data];
     let nurse = findObjectByName(data, name);
     nurse.floating = true;
-    nurse.lastFloated = "NOW";
-    setData(updatedData);
+    if (nurse.lastFloated !== formatDate(new Date())) {
+      nurse.prevFloatDay = nurse.lastFloated;
+    }
+    nurse.lastFloated = formatDate(new Date());
+    setInitialData(updatedData);
+
+    const docRef = doc(db, "staff", "staff");
+    updateDoc(docRef, { 0: updatedData });
 
     setShow(false);
     setShowWhereToFLoatModal(false);
@@ -151,9 +223,32 @@ function App() {
     if (!selectedItems.includes(item)) {
       setSelectedItems([...selectedItems, item]);
     }
+
+    const updatedData = [...data];
+    let nurse = findObjectByName(data, item);
+    nurse.selected = formatDate(new Date());
+    setInitialData(updatedData);
+
+    const docRef = doc(db, "staff", "staff");
+    updateDoc(docRef, { 0: updatedData });
   };
 
   useEffect(() => {
+    fetchStaffData()
+      .then((data) => {
+        setInitialData(data[0][0]);
+      })
+      .then(() => {
+        // if (localStorage.getItem("moonSelected") === "true") {
+        //   handleShowNightShift();
+        // } else if (localStorage.getItem("sunSelected") === "true") {
+        //   handleShowDayShift();
+        // }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     console.log(localStorage.getItem("moonSelected"));
     console.log(localStorage.getItem("sunSelected"));
     setMoonSelected(
@@ -301,7 +396,7 @@ function App() {
           <Modal.Header closeButton>
             <Modal.Title>{selectedNurse.name}</Modal.Title>
           </Modal.Header>
-          <Modal.Footer>
+          <Modal.Footer className="floatModalFooter">
             <Button
               className="RemovePersonButton"
               variant="danger"
@@ -312,16 +407,18 @@ function App() {
             >
               Remove from today
             </Button>
-            <Button
-              variant="success"
-              size="sm"
-              onClick={() => {
-                setShowWhereToFLoatModal(true);
-                setFloatWhereInputBox("");
-              }}
-            >
-              Float this person
-            </Button>
+            {selectedNurse.lastFloated !== formatDate(new Date()) && (
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => {
+                  setShowWhereToFLoatModal(true);
+                  setFloatWhereInputBox("");
+                }}
+              >
+                Float this person
+              </Button>
+            )}
           </Modal.Footer>
         </Modal>
         <div className="leftContainer">
