@@ -110,6 +110,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [show, setShow] = useState(false);
   const [selectedNurse, setSelectedNurse] = useState({});
+  const [filteredData, setFilteredData] = useState(initialData);
 
   const handleClose = () => {
     setShow(false);
@@ -165,14 +166,15 @@ function App() {
 
   // Handle changes in the search input field
   const handleSearchChange = (e) => {
+    console.log(e.target.value);
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
     // Filter the data based on the search query
-    const filteredData = initialData.filter((item) =>
+    const filteredData2 = initialData.filter((item) =>
       item.name.toLowerCase().includes(query)
     );
-    setData(filteredData);
+    setFilteredData(filteredData2);
   };
 
   // Function to sort data by last floated date
@@ -229,7 +231,7 @@ function App() {
           <div className="table-container left-table-container">
             <table className="custom-table left-table">
               <tbody>
-                {data.map((item, index) => (
+                {filteredData.map((item, index) => (
                   <tr
                     key={index}
                     className={index % 2 === 0 ? "even-row" : "odd-row"}
@@ -260,7 +262,7 @@ function App() {
                     <tr
                       key={index}
                       className={
-                        selectedItem.floating
+                        selectedItem?.floating
                           ? "floating"
                           : index % 2 === 0
                           ? "even-row"
@@ -274,7 +276,7 @@ function App() {
                         className={`tableData
                         `}
                       >
-                        {selectedItem.name}
+                        {selectedItem?.name}
                       </td>
                       <td
                         onClick={() => {
@@ -282,7 +284,7 @@ function App() {
                         }}
                         className="tableData"
                       >
-                        {selectedItem.phoneNumber}
+                        {selectedItem?.phoneNumber}
                       </td>
                       <td
                         onClick={() => {
@@ -290,7 +292,7 @@ function App() {
                         }}
                         className="tableData"
                       >
-                        {selectedItem.lastFloated}
+                        {selectedItem?.lastFloated}
                       </td>
                     </tr>
                   );
