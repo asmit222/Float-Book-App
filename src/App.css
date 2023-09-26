@@ -47,7 +47,7 @@ body {
   justify-content: flex-end;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  height: 87vh;
+  height: 76vh;
 }
 
 .leftContainer {
@@ -56,16 +56,17 @@ body {
 
 .rightContainer {
   width: 80%;
+  height: 100%;
 }
 
 .table-container {
-  max-height: 87vh;
+  height: 100%;
   overflow-y: auto;
 }
 
 .left-table-container {
   margin-top: 1vh;
-  max-height: 81vh;
+  max-height: 70vh;
 }
 
 .custom-table {
@@ -100,6 +101,7 @@ body {
 
 .right-table {
   font-size: x-small;
+  /* height: 100%; */
 }
 
 .left-table {
