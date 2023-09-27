@@ -71,6 +71,9 @@ function App() {
       handleShowNightShift();
     } else if (localStorage.getItem("sunSelected") === "true") {
       handleShowDayShift();
+    } else {
+      localStorage.setItem("moonSelected", true);
+      handleShowNightShift();
     }
   }, [initialData]);
 
