@@ -65,7 +65,6 @@ function App() {
     let initialSelectedItems = [...initialData]
       .filter((staff) => staff.selected === formatDate(new Date()))
       .map((item) => item.name);
-    console.log(JSON.stringify(initialSelectedItems));
     setSelectedItems(initialSelectedItems);
     if (localStorage.getItem("moonSelected") === "true") {
       handleShowNightShift();
@@ -311,8 +310,6 @@ function App() {
         console.error("Error:", error);
       });
 
-    console.log(localStorage.getItem("moonSelected"));
-    console.log(localStorage.getItem("sunSelected"));
     setMoonSelected(
       localStorage.getItem("moonSelected") === "true" ? "selected-icon" : ""
     );
@@ -332,8 +329,6 @@ function App() {
       setAuth(true);
     }
 
-    console.log("here: " + process.env.NODE_ENV);
-
     // const docRef = doc(db, "staff", "staff-test");
     // updateDoc(docRef, { 0: initialData1 });
   }, []);
@@ -350,18 +345,6 @@ function App() {
         : item.name.toLowerCase().includes(query) && !item.dayShift
     );
     setFilteredData(filteredData2);
-  };
-
-  // Function to sort data by last floated date
-  const sortDataByLastFloated = (dataArray) => {
-    return dataArray.slice().sort((a, b) => {
-      // Convert date strings to Date objects for comparison
-      const dateA = new Date(a.lastFloated);
-      const dateB = new Date(b.lastFloated);
-
-      // Compare the dates
-      return dateA - dateB;
-    });
   };
 
   function sortObjectsByName(objects) {
@@ -387,13 +370,13 @@ function App() {
       <div id={`${dayShift ? "headerContainer" : "headerContainerNight"}`}>
         <i
           onClick={handleShowNightShift}
-          className={`fas fa-moon ${moonSelected} ${
+          className={`fas fa-moon fa-moon1 ${moonSelected} ${
             !dayShift ? "nightMoon" : ""
           }`}
         ></i>
         <i
           onClick={handleShowDayShift}
-          className={`fas fa-sun ${sunSelected}`}
+          className={`fas fa-sun fa-sun1 ${sunSelected}`}
         ></i>
 
         <h1 className={`headerFloatBook`}>Float Book</h1>
