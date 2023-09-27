@@ -37,6 +37,7 @@ function App() {
   const [pwInput, setPwInput] = useState("");
   const [password, setPassword] = useState("4tfloatbook");
   const [auth, setAuth] = useState(false);
+  const [showNotifyingNurseModal, setShowNotifyingNurseModal] = useState(false);
 
   async function fetchStaffData() {
     const collectionName = "staff";
@@ -123,6 +124,7 @@ function App() {
 
   const sendPostRequest = () => {
     selectedNurse.floatingTo = floatWhereInputBox;
+    setShowNotifyingNurseModal(true);
     axios
       .post(
         "https://float-book-server-8.fly.dev/api/sendFloatText",
@@ -131,11 +133,13 @@ function App() {
       .then((response) => {
         if (response.status === 200) {
           setShowSentTextModal(true);
+          setShowNotifyingNurseModal(false);
           setTimeout(() => {
             setShowSentTextModal(false);
           }, 1000);
         } else {
           setShowFailedSentTextModal(true);
+          setShowNotifyingNurseModal(false);
           setTimeout(() => {
             setShowFailedSentTextModal(false);
           }, 1500);
@@ -144,6 +148,7 @@ function App() {
       })
       .catch((error) => {
         setShowFailedSentTextModal(true);
+        setShowNotifyingNurseModal(false);
         setTimeout(() => {
           setShowFailedSentTextModal(false);
         }, 1500);
@@ -344,7 +349,7 @@ function App() {
 
   return (
     <div className={`App ${dayShift ? "appDay" : "appNight"}`}>
-      <div id="headerContainer">
+      <div id={`${dayShift ? "headerContainer" : "headerContainerNight"}`}>
         <i
           onClick={handleShowNightShift}
           className={`fas fa-moon ${moonSelected} ${
@@ -356,7 +361,7 @@ function App() {
           className={`fas fa-sun ${sunSelected}`}
         ></i>
 
-        <h1 className="headerFloatBook">Float Book</h1>
+        <h1 className={`headerFloatBook`}>Float Book</h1>
       </div>
       <div className="mainContainer">
         <Modal
@@ -432,7 +437,10 @@ function App() {
 
         <Modal className="textSentModal" centered show={showSentTextModal}>
           <Modal.Header>
-            <Modal.Title>{`Text sent to ${selectedNurse.name}`}</Modal.Title>
+            <Modal.Title>
+              <i className="fa-solid fa-check"></i>
+              {`Text sent to ${selectedNurse.name}`}
+            </Modal.Title>
           </Modal.Header>
         </Modal>
 
@@ -442,7 +450,23 @@ function App() {
           show={showFailedSentTextModal}
         >
           <Modal.Header>
-            <Modal.Title>{`Failed to text ${selectedNurse.name}`}</Modal.Title>
+            <Modal.Title>
+              <i className="fa-solid fa-x"></i>
+              {`Failed to text ${selectedNurse.name}`}
+            </Modal.Title>
+          </Modal.Header>
+        </Modal>
+
+        <Modal
+          className="textSentModal"
+          centered
+          show={showNotifyingNurseModal}
+        >
+          <Modal.Header>
+            <Modal.Title>
+              <i className="fa-solid fa-spinner fa-spin"></i>
+              {`Notifying ${selectedNurse.name}`}
+            </Modal.Title>
           </Modal.Header>
         </Modal>
 
