@@ -148,6 +148,8 @@ body {
 .tableData {
   padding: 5px !important;
   margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.015rem;
 }
 
 tr {
