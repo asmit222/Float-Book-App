@@ -572,6 +572,17 @@ const initialData1 = [
     floatingTo: "",
     jobType: "RN",
   },
+  {
+    name: "Lamb, Margel",
+    phoneNumber: "813-244-3638",
+    lastFloated: "no floats logged",
+    floating: false,
+    dayShift: false,
+    prevFloatDay: "no floats logged",
+    selected: "09-21-2023",
+    floatingTo: "",
+    jobType: "RN",
+  },
 ];
 
 export default initialData1;
