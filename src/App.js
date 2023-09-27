@@ -427,7 +427,7 @@ function App() {
           </Modal.Body>
           <Modal.Footer>
             <Button
-              variant="success"
+              className="floatPersonButton"
               onClick={() => handleFloat(selectedNurse.name)}
             >
               Float
@@ -496,7 +496,7 @@ function App() {
             </Button>
             {selectedNurse.lastFloated !== formatDate(new Date()) && (
               <Button
-                variant="success"
+                className="floatPersonButton"
                 size="sm"
                 onClick={() => {
                   setShowWhereToFLoatModal(true);
@@ -520,15 +520,17 @@ function App() {
           <div className="table-container left-table-container">
             <table className="custom-table left-table">
               <tbody>
-                {filteredData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={index % 2 === 0 ? "even-row" : "odd-row"}
-                    onClick={() => handleItemClick(item.name)}
-                  >
-                    <td className="tableData">{item.name}</td>
-                  </tr>
-                ))}
+                {filteredData
+                  .filter((item) => item.selected !== formatDate(new Date()))
+                  .map((item, index) => (
+                    <tr
+                      key={index}
+                      className={index % 2 === 0 ? "even-row" : "odd-row"}
+                      onClick={() => handleItemClick(item.name)}
+                    >
+                      <td className="tableData">{item.name}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

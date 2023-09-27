@@ -123,6 +123,10 @@ body {
   animation: fadeIn ease 1.5s;
 }
 
+.right-table:hover {
+  cursor: pointer;
+}
+
 .fa-spinner {
   margin-right: 5px;
 }
@@ -135,6 +139,10 @@ body {
 .left-table {
   font-size: x-small;
   height: 100%;
+}
+
+.left-table:hover {
+  cursor: pointer;
 }
 
 .tableData {
@@ -194,7 +202,6 @@ input:focus {
 
 .textFailedSentModal {
   width: 100vw !important;
-
   background-color: rgba(252, 59, 59, 0.219);
 }
 
@@ -203,6 +210,12 @@ input:focus {
   color: white;
   font-weight: 600;
   overflow-x: auto;
+}
+
+.floatPersonButton {
+  background-color: #8d42be !important;
+  border: solid 2px #8d42be !important;
+  outline: none !important;
 }
 
 .fa-moon {
@@ -220,6 +233,11 @@ input:focus {
   font-size: 1.5rem;
   margin-left: 4rem;
   color: rgb(230, 233, 52);
+}
+
+.fa-sun:hover,
+.fa-moon:hover {
+  cursor: pointer;
 }
 
 .selected-icon {
