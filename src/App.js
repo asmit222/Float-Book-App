@@ -36,6 +36,7 @@ function App() {
   const [showPWModal, setShowPWModal] = useState(false);
   const [pwInput, setPwInput] = useState("");
   const [password, setPassword] = useState("4tfloatbook");
+  const [auth, setAuth] = useState(false);
 
   async function fetchStaffData() {
     const collectionName = "staff";
@@ -83,6 +84,7 @@ function App() {
   const checkPW = () => {
     if (pwInput === password) {
       setShowPWModal(false);
+      setAuth(true);
       localStorage.setItem("password", password);
     } else {
       alert("password is incorrect");
@@ -206,6 +208,10 @@ function App() {
   };
 
   const handleShowModal = (name) => {
+    if (!auth) {
+      setShowPWModal(true);
+      return;
+    }
     setShow(true);
     let nurse = findObjectByName(initialData, name);
     setSelectedNurse(nurse);
@@ -221,10 +227,15 @@ function App() {
   }
 
   const handleItemClick = (item) => {
+    if (!auth) {
+      setShowPWModal(true);
+      return;
+    }
     // Check if the item is already in the selectedItems array
     if (!selectedItems.includes(item)) {
       setSelectedItems([...selectedItems, item]);
     }
+    setSearchQuery("");
 
     const updatedData = [...data];
     let nurse = findObjectByName(data, item);
@@ -234,6 +245,18 @@ function App() {
     const docRef = doc(db, "staff", "staff");
     updateDoc(docRef, { 0: updatedData });
   };
+
+  function filterByDayOrNight(namesArray) {
+    let filteredArr = [];
+    for (let name of namesArray) {
+      if (dayShift && findObjectByName(data, name).dayShift) {
+        filteredArr.push(name);
+      } else if (!dayShift && !findObjectByName(data, name).dayShift) {
+        filteredArr.push(name);
+      }
+    }
+    return filteredArr;
+  }
 
   function sortByLastFloated(namesArray) {
     return namesArray.sort((a, b) => {
@@ -285,8 +308,8 @@ function App() {
       setFilteredData(dayShiftOnly);
       setDayShift(true);
     }
-    if (localStorage.getItem("password") !== password) {
-      setShowPWModal(true);
+    if (localStorage.getItem("password") === password) {
+      setAuth(true);
     }
 
     // const docRef = doc(db, "staff", "staff");
@@ -320,11 +343,13 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={`App ${dayShift ? "appDay" : "appNight"}`}>
       <div id="headerContainer">
         <i
           onClick={handleShowNightShift}
-          className={`fas fa-moon ${moonSelected}`}
+          className={`fas fa-moon ${moonSelected} ${
+            !dayShift ? "nightMoon" : ""
+          }`}
         ></i>
         <i
           onClick={handleShowDayShift}
@@ -334,7 +359,14 @@ function App() {
         <h1 className="headerFloatBook">Float Book</h1>
       </div>
       <div className="mainContainer">
-        <Modal className="nurseModal" centered show={showPWModal}>
+        <Modal
+          className="nurseModal"
+          centered
+          show={showPWModal}
+          onHide={() => {
+            setShowPWModal(false);
+          }}
+        >
           <Modal.Header>
             <Modal.Title>Password?</Modal.Title>
           </Modal.Header>
@@ -369,7 +401,7 @@ function App() {
           onHide={handleCloseWhereToFloatModal}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Float where?</Modal.Title>
+            <Modal.Title>Float to where?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {" "}
@@ -478,6 +510,9 @@ function App() {
           </div>
         </div>
         <div className="rightContainer">
+          <div className="todayTitleContainer">
+            <span>Today's Staff</span>
+          </div>
           <div className="table-container">
             <table className="custom-table right-table">
               <thead className="thead">
@@ -486,62 +521,65 @@ function App() {
                 <td>Last Floated</td>
               </thead>
               <tbody>
-                {sortByLastFloated(selectedItems).map((itemName, index) => {
-                  // Find the corresponding object in initialData based on the name
-                  const selectedItem = data.find(
-                    (item) => item.name === itemName
-                  );
-                  return (
-                    <tr
-                      key={index}
-                      className={
-                        selectedItem?.floating
-                          ? "floating"
-                          : index % 2 === 0
-                          ? "even-row"
-                          : "odd-row"
-                      }
-                    >
-                      <td
-                        onClick={() => {
-                          handleShowModal(selectedItem.name);
-                        }}
-                        className={`tableData
+                {sortByLastFloated(filterByDayOrNight(selectedItems)).map(
+                  (itemName, index) => {
+                    // Find the corresponding object in initialData based on the name
+                    const selectedItem = data.find(
+                      (item) => item.name === itemName
+                    );
+                    return (
+                      <tr
+                        key={index}
+                        className={
+                          selectedItem?.floating
+                            ? "floating"
+                            : index % 2 === 0
+                            ? "even-row"
+                            : "odd-row"
+                        }
+                      >
+                        <td
+                          onClick={() => {
+                            handleShowModal(selectedItem.name);
+                          }}
+                          className={`tableData
                         `}
-                      >
-                        {selectedItem?.name}
-                      </td>
-                      <td
-                        onClick={() => {
-                          handleShowModal(selectedItem.name);
-                        }}
-                        className="tableData"
-                      >
-                        {selectedItem?.phoneNumber}
-                      </td>
-                      <td
-                        onClick={() => {
-                          handleShowModal(selectedItem.name);
-                        }}
-                        className="tableData"
-                      >
-                        <span>
-                          {selectedItem?.lastFloated === formatDate(new Date())
-                            ? "TODAY"
-                            : selectedItem?.lastFloated}
-                        </span>
-                        {index === 0 &&
-                          selectedItem?.lastFloated !==
-                            formatDate(new Date()) && (
-                            <span>
-                              <br></br>
-                              <span className="nextUpText">next up</span>
-                            </span>
-                          )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                        >
+                          {selectedItem?.name}
+                        </td>
+                        <td
+                          onClick={() => {
+                            handleShowModal(selectedItem.name);
+                          }}
+                          className="tableData"
+                        >
+                          {selectedItem?.phoneNumber}
+                        </td>
+                        <td
+                          onClick={() => {
+                            handleShowModal(selectedItem.name);
+                          }}
+                          className="tableData"
+                        >
+                          <span>
+                            {selectedItem?.lastFloated ===
+                            formatDate(new Date())
+                              ? "TODAY"
+                              : selectedItem?.lastFloated}
+                          </span>
+                          {index === 0 &&
+                            selectedItem?.lastFloated !==
+                              formatDate(new Date()) && (
+                              <span>
+                                <br></br>
+                                <span className="nextUpText">next up</span>
+                              </span>
+                            )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
               </tbody>
             </table>
           </div>

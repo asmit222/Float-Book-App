@@ -16,6 +16,7 @@
   height: 100%;
   width: 100vw;
   text-align: center;
+  transition: background-color ease-in-out 0.5s;
 }
 
 .headerFloatBook {
@@ -42,7 +43,18 @@ body {
   justify-content: flex-end;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  height: 76vh;
+  height: 71vh;
+}
+
+.todayTitleContainer {
+  height: 5vh;
+  border: solid 1px white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+  background-color: #f24a75;
+  font-weight: 500;
+  margin-bottom: 1vh;
 }
 
 .leftContainer {
@@ -121,7 +133,7 @@ body {
 }
 
 .search-box {
-  width: 20px;
+  border-top-left-radius: 5px !important;
 }
 
 input {
@@ -170,6 +182,7 @@ input:focus {
   font-size: 1.65rem;
   margin-left: 1rem;
   color: rgb(34, 34, 34);
+  transition: color ease-in-out 0.5s;
 }
 
 .fa-sun {
@@ -219,4 +232,16 @@ input:focus {
   padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
+}
+
+.appNight {
+  background-color: #003d3c;
+}
+
+.appDay {
+  background-color: #02605f;
+}
+
+.nightMoon {
+  color: whitesmoke;
 }
