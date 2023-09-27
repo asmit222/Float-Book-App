@@ -180,7 +180,11 @@ function App() {
     nurse.selected = false;
     setInitialData(updatedData);
 
-    const docRef = doc(db, "staff", "staff");
+    const docRef = doc(
+      db,
+      "staff",
+      process.env.NODE_ENV !== "development" ? "staff" : "staff-test"
+    );
     updateDoc(docRef, { 0: updatedData });
 
     // Update the selectedItems state with the filtered array
@@ -207,7 +211,11 @@ function App() {
     nurse.lastFloated = formatDate(new Date());
     setInitialData(updatedData);
 
-    const docRef = doc(db, "staff", "staff");
+    const docRef = doc(
+      db,
+      "staff",
+      process.env.NODE_ENV !== "development" ? "staff" : "staff-test"
+    );
     updateDoc(docRef, { 0: updatedData });
 
     setShow(false);
@@ -250,7 +258,11 @@ function App() {
     nurse.selected = formatDate(new Date());
     setInitialData(updatedData);
 
-    const docRef = doc(db, "staff", "staff");
+    const docRef = doc(
+      db,
+      "staff",
+      process.env.NODE_ENV !== "development" ? "staff" : "staff-test"
+    );
     updateDoc(docRef, { 0: updatedData });
   };
 
@@ -293,7 +305,7 @@ function App() {
   useEffect(() => {
     fetchStaffData()
       .then((data) => {
-        setInitialData(data[0][0]);
+        setInitialData(data[process.env.NODE_ENV !== "development" ? 0 : 1][0]);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -320,7 +332,9 @@ function App() {
       setAuth(true);
     }
 
-    // const docRef = doc(db, "staff", "staff");
+    console.log("here: " + process.env.NODE_ENV);
+
+    // const docRef = doc(db, "staff", "staff-test");
     // updateDoc(docRef, { 0: initialData1 });
   }, []);
 
