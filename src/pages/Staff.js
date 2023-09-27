@@ -63,7 +63,6 @@ function Staff() {
 
   return (
     <div className="staffContainer">
-      <h2 className="staffTitle">Staff</h2>
       <div className="table-container2">
         <Table striped bordered hover>
           <thead id="theadStaffTable">
