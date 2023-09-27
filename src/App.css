@@ -350,6 +350,7 @@ input:focus {
   position: fixed;
   bottom: 18vh;
   border-radius: 10px;
+  max-width: 94vw;
 }
 
 .table123 {
