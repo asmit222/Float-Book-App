@@ -168,12 +168,12 @@ function App() {
     );
 
     if (
-      nurse.prevFloatDay !== "no float yet" ||
+      nurse.prevFloatDay !== "no floats logged" ||
       nurse.lastFloated === formatDate(new Date())
     ) {
       nurse.lastFloated = nurse.prevFloatDay;
     }
-    // nurse.prevFloatDay = "no float yet";
+    // nurse.prevFloatDay = "no floats logged";
     nurse.selected = false;
     setInitialData(updatedData);
 
@@ -269,7 +269,7 @@ function App() {
       let nurseA = findObjectByName(data, a);
       let nurseB = findObjectByName(data, b);
 
-      if (nurseA.lastFloated === "no float yet") {
+      if (nurseA.lastFloated === "no floats logged") {
         return -1;
       }
 
@@ -475,13 +475,13 @@ function App() {
             <Modal.Title>{selectedNurse.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {selectedNurse.lastFloated !== "no float yet"
+            {selectedNurse.lastFloated !== "no floats logged"
               ? `Last floated on ${selectedNurse.lastFloated} to ${
                   selectedNurse.floatingTo !== ""
                     ? selectedNurse.floatingTo
                     : "n/a"
                 }`
-              : `no float yet`}
+              : `no floats logged`}
           </Modal.Body>
           <Modal.Footer className="floatModalFooter">
             <Button
@@ -522,6 +522,7 @@ function App() {
               <tbody>
                 {filteredData
                   .filter((item) => item.selected !== formatDate(new Date()))
+                  .sort()
                   .map((item, index) => (
                     <tr
                       key={index}
@@ -572,6 +573,14 @@ function App() {
                         `}
                         >
                           {selectedItem?.name}
+                          {index === 0 &&
+                            selectedItem?.lastFloated !==
+                              formatDate(new Date()) && (
+                              <span>
+                                <br></br>
+                                <span className="nextUpText">next up</span>
+                              </span>
+                            )}
                         </td>
                         <td
                           onClick={() => {
@@ -593,14 +602,6 @@ function App() {
                               ? "TODAY"
                               : selectedItem?.lastFloated}
                           </span>
-                          {index === 0 &&
-                            selectedItem?.lastFloated !==
-                              formatDate(new Date()) && (
-                              <span>
-                                <br></br>
-                                <span className="nextUpText">next up</span>
-                              </span>
-                            )}
                         </td>
                       </tr>
                     );
