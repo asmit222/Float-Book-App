@@ -350,6 +350,24 @@ function App() {
     });
   };
 
+  function sortObjectsByName(objects) {
+    // Use the sort method to compare objects based on their "name" property
+    objects.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    return objects;
+  }
+
   return (
     <div className={`App ${dayShift ? "appDay" : "appNight"}`}>
       <div id={`${dayShift ? "headerContainer" : "headerContainerNight"}`}>
@@ -523,18 +541,19 @@ function App() {
           <div className="table-container left-table-container">
             <table className="custom-table left-table">
               <tbody>
-                {filteredData
-                  .filter((item) => item.selected !== formatDate(new Date()))
-                  .sort()
-                  .map((item, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? "even-row" : "odd-row"}
-                      onClick={() => handleItemClick(item.name)}
-                    >
-                      <td className="tableData">{item.name}</td>
-                    </tr>
-                  ))}
+                {sortObjectsByName(
+                  filteredData.filter(
+                    (item) => item.selected !== formatDate(new Date())
+                  )
+                ).map((item, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? "even-row" : "odd-row"}
+                    onClick={() => handleItemClick(item.name)}
+                  >
+                    <td className="tableData">{item.name}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
