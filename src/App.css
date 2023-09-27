@@ -20,8 +20,9 @@
 }
 
 .headerFloatBook {
-  color: white;
+  color: #ecf2fa;
   margin: 0;
+  letter-spacing: 0.03rem;
 }
 
 #headerContainer {
@@ -30,6 +31,7 @@
   padding-top: 3vh;
   padding-bottom: 8vh;
   background-color: #003635;
+  transition: background-color ease-in-out 0.75s;
 }
 
 #headerContainerNight {
@@ -37,7 +39,7 @@
   max-height: 50px;
   padding-top: 3vh;
   padding-bottom: 8vh;
-  background-color: #002e2e;
+  background-color: #040a16;
 }
 
 body {
@@ -285,7 +287,7 @@ input:focus {
 }
 
 .appNight {
-  background-color: #003d3c;
+  background-color: #0f172a;
 }
 
 .appDay {
