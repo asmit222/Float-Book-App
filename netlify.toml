@@ -1,2 +1,13 @@
 [build]
   environment = { CI = "false" }
+
+[[redirects]]
+  from = "https://deluxe-kashata-f36887.netlify.app/*"
+  to = "https://floatbook.xyz/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
