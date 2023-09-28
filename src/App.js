@@ -39,11 +39,23 @@ function App() {
   const [auth, setAuth] = useState(false);
   const [showNotifyingNurseModal, setShowNotifyingNurseModal] = useState(false);
   const [isToggled, setIsToggled] = useState(true);
+  const [showToggleModal, setShowToggleModal] = useState(false);
 
   const handleToggle = () => {
     setIsToggled(!isToggled); // Toggle the state
     localStorage.setItem("textsToggled", !isToggled);
+    setShowToggleModal(true);
+    setTimeout(() => {
+      setShowToggleModal(false);
+    }, 1000);
   };
+
+  // useEffect(() => {
+  //   setShowToggleModal(true);
+  //   setTimeout(() => {
+  //     setShowToggleModal(false);
+  //   }, 1000);
+  // }, [isToggled]);
 
   async function fetchStaffData() {
     const collectionName = "staff";
@@ -483,6 +495,16 @@ function App() {
             <Modal.Title>
               <i className="fa-solid fa-check"></i>
               {`Text sent to ${selectedNurse.name}`}
+            </Modal.Title>
+          </Modal.Header>
+        </Modal>
+
+        <Modal className="textSentModal" centered show={showToggleModal}>
+          <Modal.Header>
+            <Modal.Title>
+              {isToggled
+                ? "Text notifications enabled"
+                : "Text notifications disabled"}
             </Modal.Title>
           </Modal.Header>
         </Modal>
