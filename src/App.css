@@ -102,13 +102,32 @@ body {
 }
 
 .custom-table tr.even-row {
-  background-color: #f2f2f2; /* Background color for even rows */
   overflow-x: auto;
 }
 
 .custom-table tr.odd-row {
-  background-color: #ffffff; /* Background color for odd rows */
   overflow-x: auto;
+}
+
+.custom-table tr.even-row-day {
+  background-color: #02605f;
+  transition: background-color ease-in-out 0.5s;
+  color: rgb(245, 255, 246);
+}
+.custom-table tr.even-row-night {
+  background-color: #132142;
+  transition: background-color ease-in-out 0.5s;
+  color: rgb(234, 236, 255);
+}
+.custom-table tr.odd-row-day {
+  background-color: #02605f;
+  transition: background-color ease-in-out 0.5s;
+  color: rgb(245, 255, 246);
+}
+.custom-table tr.odd-row-night {
+  background-color: #132142;
+  transition: background-color ease-in-out 0.5s;
+  color: rgb(234, 236, 255);
 }
 
 .custom-table td {
@@ -155,7 +174,8 @@ body {
   padding: 5px !important;
   margin: 0;
   font-weight: 500;
-  letter-spacing: 0.015rem;
+  letter-spacing: 0.029rem;
+  border: solid 1px rgba(255, 255, 255, 0.301) !important;
 }
 
 tr {
@@ -312,10 +332,25 @@ input:focus {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: #333;
   color: white;
   padding: 10px 20px;
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-night {
+  background-color: #051129 !important;
+}
+
+.navbar-section-night:hover {
+  background-color: #132142;
+}
+
+.navbar-day {
+  background-color: #003635 !important;
+}
+
+.navbar-section-day:hover {
+  background-color: #02605f !important;
 }
 
 .nav-section {
@@ -323,10 +358,14 @@ input:focus {
   text-align: center;
   padding: 10px;
   cursor: pointer;
+  position: relative; /* Added position relative */
+  overflow: hidden; /* Hide overflowing content */
+  transition: background-color 0.3s, transform 0.3s; /* Add transitions */
 }
 
 .nav-section:hover {
-  background-color: #555;
+  border-radius: 10px;
+  transform: scale(1.1); /* Scale up on hover */
 }
 
 .fa-book,
@@ -342,11 +381,17 @@ input:focus {
   padding-top: 1rem;
   padding-bottom: 1rem;
   /* background-color: red; */
-  background-color: #132142;
   display: flex;
   justify-content: center;
   position: fixed;
   top: 0;
+}
+
+.staffContainer-day {
+  background-color: #02605f;
+}
+.staffContainer-night {
+  background-color: #132142;
 }
 
 .table-container2 {
@@ -367,7 +412,15 @@ input:focus {
 }
 
 .even-row2 {
-  background-color: gray;
+  /* background-color: gray; */
+  background-color: #132142 !important;
+  color: rgb(234, 236, 255);
+}
+
+.staffTableTd {
+  background-color: #132142 !important;
+  color: rgb(234, 236, 255) !important;
+  border: solid 1px rgba(255, 255, 255, 0.301) !important;
 }
 
 .fa-sun2 {
@@ -376,8 +429,13 @@ input:focus {
 }
 
 .fa-moon2 {
-  color: rgb(75, 75, 75);
+  color: rgb(236, 236, 236);
   margin-right: 5px;
+}
+
+.staffTableTh {
+  background-color: #f24a74 !important;
+  color: white !important;
 }
 
 .staffTitle {
@@ -387,7 +445,11 @@ input:focus {
 #theadStaffTable {
   position: sticky;
   top: 0;
-  font-size: small;
+  font-size: 1.2em;
+}
+
+#theadStaffTodayTable {
+  font-size: 1.1em;
 }
 
 .toggleTextDiv {

@@ -570,7 +570,15 @@ function App() {
                 ).map((item, index) => (
                   <tr
                     key={index}
-                    className={index % 2 === 0 ? "even-row" : "odd-row"}
+                    className={
+                      index % 2 === 0
+                        ? `even-row ${
+                            dayShift ? "even-row-day" : "even-row-night"
+                          }`
+                        : `odd-row ${
+                            dayShift ? "odd-row-day" : "odd-row-night"
+                          }`
+                    }
                     onClick={() => handleItemClick(item.name)}
                   >
                     <td className="tableData">{item.name}</td>
@@ -595,7 +603,7 @@ function App() {
           {filterByDayOrNight(selectedItems).length !== 0 && (
             <div className="table-container">
               <table className="custom-table right-table">
-                <thead className="thead">
+                <thead id="theadStaffTodayTable" className="thead">
                   <td>Name</td>
                   <td>Phone Number</td>
                   <td>Last Floated</td>
@@ -614,8 +622,12 @@ function App() {
                             selectedItem?.lastFloated === formatDate(new Date())
                               ? "floating"
                               : index % 2 === 0
-                              ? "even-row"
-                              : "odd-row"
+                              ? `even-row ${
+                                  dayShift ? "even-row-day" : "even-row-night"
+                                }`
+                              : `odd-row ${
+                                  dayShift ? "odd-row-day" : "odd-row-night"
+                                }`
                           }
                         >
                           <td

@@ -286,7 +286,14 @@ function Staff() {
   }, []);
 
   return (
-    <div className="staffContainer">
+    <div
+      className={`staffContainer ${
+        localStorage.getItem("moonSelected") === "true" ||
+        localStorage.getItem("sunSelected") !== "true"
+          ? "staffContainer-night"
+          : "staffContainer-day"
+      }`}
+    >
       <Button
         onClick={() => {
           if (auth) {
@@ -530,10 +537,10 @@ function Staff() {
         <Table striped bordered hover>
           <thead id="theadStaffTable">
             <tr>
-              <th>Name</th>
-              <th>Phone Number</th>
-              <th>Job</th>
-              <th>Last Floated</th>
+              <th className="staffTableTh">Name</th>
+              <th className="staffTableTh">Phone Number</th>
+              <th className="staffTableTh">Job</th>
+              <th className="staffTableTh">Last Floated</th>
             </tr>
           </thead>
           <tbody>
@@ -543,7 +550,7 @@ function Staff() {
                 className={index % 2 === 0 ? "even-row2" : "odd-row2"}
                 onClick={() => handleRowClick(item)}
               >
-                <td>
+                <td className="staffTableTd">
                   {item.dayShift ? (
                     <i className="fa-solid fa-sun fa-sun2"></i>
                   ) : (
@@ -551,9 +558,9 @@ function Staff() {
                   )}
                   {item.name}
                 </td>
-                <td>{item.phoneNumber}</td>
-                <td>{item.jobType}</td>
-                <td>{item.lastFloated}</td>
+                <td className="staffTableTd">{item.phoneNumber}</td>
+                <td className="staffTableTd">{item.jobType}</td>
+                <td className="staffTableTd">{item.lastFloated}</td>
               </tr>
             ))}
           </tbody>
