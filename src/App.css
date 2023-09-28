@@ -441,6 +441,10 @@ input:focus {
   margin-right: 5px;
 }
 
+.modal-content {
+  background-color: #eeeeee !important;
+}
+
 .fa-moon2 {
   color: rgb(236, 236, 236);
   margin-right: 5px;
