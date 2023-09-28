@@ -110,7 +110,6 @@ function Staff() {
   }
 
   const handleDeleteStaffMemberForReal = async () => {
-    console.log("deleting " + currNurse.name);
     setShowAreYouSureDelete(false);
     const newArray = data.filter(
       (item) => JSON.stringify(item) !== JSON.stringify(currNurse)
@@ -145,7 +144,6 @@ function Staff() {
   };
 
   const handleDeleteStaffMember = () => {
-    console.log("hi");
     setShowStaffMemberModal(false);
     setShowAreYouSureDelete(true);
   };
@@ -203,12 +201,6 @@ function Staff() {
       return;
     }
 
-    console.log(
-      nameInputBox,
-      phoneNumberInputBox,
-      dayShiftInputBox,
-      lastFloatedInputBox
-    );
     setShowStaffMemberModal(false);
 
     const newData = [...data];
@@ -247,7 +239,6 @@ function Staff() {
     setDayShiftInputBox("");
     setLastFloatedInputBox("");
     setJobInputBox("");
-    console.log(staffMember.name);
     setShowStaffMemberModal(true);
     setCurrNurse(staffMember);
   };

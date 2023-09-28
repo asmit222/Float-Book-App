@@ -50,13 +50,6 @@ function App() {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   setShowToggleModal(true);
-  //   setTimeout(() => {
-  //     setShowToggleModal(false);
-  //   }, 1000);
-  // }, [isToggled]);
-
   async function fetchStaffData() {
     const collectionName = "staff";
     const staffCollection = collection(db, collectionName);
