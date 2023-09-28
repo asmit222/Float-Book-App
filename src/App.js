@@ -584,76 +584,86 @@ function App() {
           <div className="todayTitleContainer">
             <span>Today's Staff</span>
           </div>
-          <div className="table-container">
-            <table className="custom-table right-table">
-              <thead className="thead">
-                <td>Name</td>
-                <td>Phone Number</td>
-                <td>Last Floated</td>
-              </thead>
-              <tbody>
-                {sortByLastFloated(filterByDayOrNight(selectedItems)).map(
-                  (itemName, index) => {
-                    // Find the corresponding object in initialData based on the name
-                    const selectedItem = data.find(
-                      (item) => item.name === itemName
-                    );
-                    return (
-                      <tr
-                        key={index}
-                        className={
-                          selectedItem?.floating
-                            ? "floating"
-                            : index % 2 === 0
-                            ? "even-row"
-                            : "odd-row"
-                        }
-                      >
-                        <td
-                          onClick={() => {
-                            handleShowModal(selectedItem.name);
-                          }}
-                          className={`tableData
+          {filterByDayOrNight(selectedItems).length === 0 && (
+            <div
+              className={
+                dayShift ? "selectTodaysStaffDayDiv" : "selectTodaysStaffDiv"
+              }
+            ></div>
+          )}
+
+          {filterByDayOrNight(selectedItems).length !== 0 && (
+            <div className="table-container">
+              <table className="custom-table right-table">
+                <thead className="thead">
+                  <td>Name</td>
+                  <td>Phone Number</td>
+                  <td>Last Floated</td>
+                </thead>
+                <tbody>
+                  {sortByLastFloated(filterByDayOrNight(selectedItems)).map(
+                    (itemName, index) => {
+                      // Find the corresponding object in initialData based on the name
+                      const selectedItem = data.find(
+                        (item) => item.name === itemName
+                      );
+                      return (
+                        <tr
+                          key={index}
+                          className={
+                            selectedItem?.lastFloated === formatDate(new Date())
+                              ? "floating"
+                              : index % 2 === 0
+                              ? "even-row"
+                              : "odd-row"
+                          }
+                        >
+                          <td
+                            onClick={() => {
+                              handleShowModal(selectedItem.name);
+                            }}
+                            className={`tableData
                         `}
-                        >
-                          {selectedItem?.name}
-                          {index === 0 &&
-                            selectedItem?.lastFloated !==
-                              formatDate(new Date()) && (
-                              <span>
-                                <br></br>
-                                <span className="nextUpText">next up</span>
-                              </span>
-                            )}
-                        </td>
-                        <td
-                          onClick={() => {
-                            handleShowModal(selectedItem.name);
-                          }}
-                          className="tableData"
-                        >
-                          {selectedItem?.phoneNumber}
-                        </td>
-                        <td
-                          onClick={() => {
-                            handleShowModal(selectedItem.name);
-                          }}
-                          className="tableData"
-                        >
-                          <span>
-                            {selectedItem?.lastFloated ===
-                            formatDate(new Date())
-                              ? "TODAY"
-                              : selectedItem?.lastFloated}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
-              </tbody>
-            </table>
-          </div>
+                          >
+                            {selectedItem?.name}
+                            {index === 0 &&
+                              selectedItem?.lastFloated !==
+                                formatDate(new Date()) && (
+                                <span>
+                                  <br></br>
+                                  <span className="nextUpText">next up</span>
+                                </span>
+                              )}
+                          </td>
+                          <td
+                            onClick={() => {
+                              handleShowModal(selectedItem.name);
+                            }}
+                            className="tableData"
+                          >
+                            {selectedItem?.phoneNumber}
+                          </td>
+                          <td
+                            onClick={() => {
+                              handleShowModal(selectedItem.name);
+                            }}
+                            className="tableData"
+                          >
+                            <span>
+                              {selectedItem?.lastFloated ===
+                              formatDate(new Date())
+                                ? "TODAY"
+                                : selectedItem?.lastFloated}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </div>

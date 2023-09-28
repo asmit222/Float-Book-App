@@ -435,3 +435,17 @@ input:focus {
   letter-spacing: 0.02rem;
   border-radius: 6px !important;
 }
+
+.selectTodaysStaffDiv {
+  background-image: url("./selectTodaysStaff.png");
+  background-size: cover;
+  padding-top: 100%; /* Maintain 1:1 aspect ratio (square) */
+  position: relative;
+}
+
+.selectTodaysStaffDayDiv {
+  background-image: url("./selectTodaysStaffDay.png");
+  background-size: cover;
+  padding-top: 100%; /* Maintain 1:1 aspect ratio (square) */
+  position: relative;
+}
