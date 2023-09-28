@@ -23,6 +23,10 @@
   color: #ecf2fa;
   margin: 0;
   letter-spacing: 0.03rem;
+  position: fixed;
+  top: 1.2rem;
+  right: 30%;
+  width: 40%;
 }
 
 #headerContainer {
@@ -225,6 +229,7 @@ input:focus {
 .fa-moon1 {
   position: absolute;
   left: 0;
+  top: 1.4rem;
   font-size: 1.65rem;
   margin-left: 1rem;
   color: rgb(0, 0, 0);
@@ -234,6 +239,7 @@ input:focus {
 .fa-sun1 {
   position: absolute;
   left: 0;
+  top: 1.4rem;
   font-size: 1.5rem;
   margin-left: 4rem;
   color: rgb(230, 233, 52);
@@ -379,4 +385,25 @@ input:focus {
 #theadStaffTable {
   position: sticky;
   top: 0;
+}
+
+.toggleTextDiv {
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+}
+
+.toggleTextsText {
+  font-size: xx-small;
+  position: fixed;
+  top: 2.6rem;
+  color: white;
+  right: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.04rem;
+}
+
+.text-toggle-custom {
+  background-color: #8d42be !important; /* Change background color to #8d42be !important; */
+  border-color: #8d42be !important;
 }

@@ -38,6 +38,12 @@ function App() {
   const [password, setPassword] = useState("4tfloatbook");
   const [auth, setAuth] = useState(false);
   const [showNotifyingNurseModal, setShowNotifyingNurseModal] = useState(false);
+  const [isToggled, setIsToggled] = useState(true);
+
+  const handleToggle = () => {
+    setIsToggled(!isToggled); // Toggle the state
+    localStorage.setItem("textsToggled", !isToggled);
+  };
 
   async function fetchStaffData() {
     const collectionName = "staff";
@@ -219,7 +225,10 @@ function App() {
 
     setShow(false);
     setShowWhereToFLoatModal(false);
-    sendPostRequest();
+
+    if (isToggled) {
+      sendPostRequest();
+    }
   };
 
   const handleShowModal = (name) => {
@@ -329,6 +338,10 @@ function App() {
       setAuth(true);
     }
 
+    if (localStorage.getItem("textsToggled") === "false") {
+      setIsToggled(false);
+    }
+
     // const docRef = doc(db, "staff", "staff-test");
     // updateDoc(docRef, { 0: initialData1 });
   }, []);
@@ -378,8 +391,20 @@ function App() {
           onClick={handleShowDayShift}
           className={`fas fa-sun fa-sun1 ${sunSelected}`}
         ></i>
-
-        <h1 className={`headerFloatBook`}>Float Book</h1>
+        <h1 className={`headerFloatBook`}>Float Book</h1>{" "}
+        <div className="form-check form-switch toggleTextDiv">
+          {/* The Bootstrap form-switch class styles the toggle switch */}
+          <input
+            className={`form-check-input ${isToggled && "text-toggle-custom"}`}
+            type="checkbox"
+            id="toggleSwitch"
+            checked={isToggled}
+            onChange={handleToggle}
+          />
+          <div className="toggleTextsText">
+            send text <br></br>notifications
+          </div>
+        </div>
       </div>
       <div className="mainContainer">
         <Modal
