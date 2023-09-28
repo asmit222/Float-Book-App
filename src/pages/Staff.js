@@ -550,7 +550,13 @@ function Staff() {
                 className={index % 2 === 0 ? "even-row2" : "odd-row2"}
                 onClick={() => handleRowClick(item)}
               >
-                <td className="staffTableTd">
+                <td
+                  className={`staffTableTd ${
+                    localStorage.getItem("moonSelected") === "true"
+                      ? "staffTableTd-night"
+                      : "staffTableTd-day"
+                  }`}
+                >
                   {item.dayShift ? (
                     <i className="fa-solid fa-sun fa-sun2"></i>
                   ) : (
@@ -558,9 +564,33 @@ function Staff() {
                   )}
                   {item.name}
                 </td>
-                <td className="staffTableTd">{item.phoneNumber}</td>
-                <td className="staffTableTd">{item.jobType}</td>
-                <td className="staffTableTd">{item.lastFloated}</td>
+                <td
+                  className={`staffTableTd ${
+                    localStorage.getItem("moonSelected") === "true"
+                      ? "staffTableTd-night"
+                      : "staffTableTd-day"
+                  }`}
+                >
+                  {item.phoneNumber}
+                </td>
+                <td
+                  className={`staffTableTd ${
+                    localStorage.getItem("moonSelected") === "true"
+                      ? "staffTableTd-night"
+                      : "staffTableTd-day"
+                  }`}
+                >
+                  {item.jobType}
+                </td>
+                <td
+                  className={`staffTableTd ${
+                    localStorage.getItem("moonSelected") === "true"
+                      ? "staffTableTd-night"
+                      : "staffTableTd-day"
+                  }`}
+                >
+                  {item.lastFloated}
+                </td>
               </tr>
             ))}
           </tbody>

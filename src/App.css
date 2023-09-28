@@ -424,9 +424,16 @@ input:focus {
 }
 
 .staffTableTd {
+  border: solid 1px rgba(255, 255, 255, 0.301) !important;
+}
+
+.staffTableTd-night {
   background-color: #132142 !important;
   color: rgb(234, 236, 255) !important;
-  border: solid 1px rgba(255, 255, 255, 0.301) !important;
+}
+.staffTableTd-day {
+  background-color: #02605f !important;
+  color: rgb(245, 255, 246) !important;
 }
 
 .fa-sun2 {
