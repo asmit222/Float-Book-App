@@ -441,6 +441,7 @@ input:focus {
   background-size: cover;
   padding-top: 100%; /* Maintain 1:1 aspect ratio (square) */
   position: relative;
+  transition: background-image ease-in-out 0.5s;
 }
 
 .selectTodaysStaffDayDiv {
@@ -448,4 +449,5 @@ input:focus {
   background-size: cover;
   padding-top: 100%; /* Maintain 1:1 aspect ratio (square) */
   position: relative;
+  transition: background-image ease-in-out 0.5s;
 }
