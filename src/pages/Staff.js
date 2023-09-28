@@ -471,7 +471,6 @@ function Staff() {
             >
               <Form.Label className="formLabelStaffPage">name</Form.Label>
               <Form.Control
-                placeholder="name"
                 onChange={(e) => {
                   handleUpdateName(e);
                 }}
@@ -482,7 +481,6 @@ function Staff() {
                 phone number
               </Form.Label>
               <Form.Control
-                placeholder="phone number"
                 onChange={(e) => {
                   handleUpdatePhoneNumber(e);
                 }}
