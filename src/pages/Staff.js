@@ -25,9 +25,27 @@ function Staff() {
   const [lastFloatedInputBox, setLastFloatedInputBox] = useState("");
   const [showAreYouSureDelete, setShowAreYouSureDelete] = useState(false);
   const [showAddStaffMemberModal, setShowAddStaffMemberModal] = useState(false);
+  const [password, setPassword] = useState("4tfloatbook");
+  const [auth, setAuth] = useState(false);
+  const [pwInput, setPwInput] = useState("");
+  const [showPWModal, setShowPWModal] = useState(false);
 
   const handleUpdateJob = (e) => {
     setJobInputBox(e.target.value);
+  };
+
+  const handlePWChange = (e) => {
+    setPwInput(e.target.value);
+  };
+
+  const checkPW = () => {
+    if (pwInput === password) {
+      setShowPWModal(false);
+      setAuth(true);
+      localStorage.setItem("password", password);
+    } else {
+      alert("password is incorrect");
+    }
   };
 
   const handleCreateStaffMember = async () => {
@@ -219,6 +237,11 @@ function Staff() {
   };
 
   const handleRowClick = (staffMember) => {
+    if (!auth) {
+      setShowPWModal(true);
+      return;
+    }
+
     setNameInputBox("");
     setPhoneNumberInputBox("");
     setDayShiftInputBox("");
@@ -257,18 +280,25 @@ function Staff() {
       .catch((error) => {
         console.error("Error:", error);
       });
+    if (localStorage.getItem("password") === password) {
+      setAuth(true);
+    }
   }, []);
 
   return (
     <div className="staffContainer">
       <Button
         onClick={() => {
-          setShowAddStaffMemberModal(true);
-          setNameInputBox("");
-          setPhoneNumberInputBox("");
-          setDayShiftInputBox("");
-          setLastFloatedInputBox("");
-          setJobInputBox("");
+          if (auth) {
+            setShowAddStaffMemberModal(true);
+            setNameInputBox("");
+            setPhoneNumberInputBox("");
+            setDayShiftInputBox("");
+            setLastFloatedInputBox("");
+            setJobInputBox("");
+          } else {
+            setShowPWModal(true);
+          }
         }}
         className="addStaffMemberButton"
         size="sm"
@@ -276,6 +306,40 @@ function Staff() {
       >
         Add staff member
       </Button>
+      <Modal
+        className="nurseModal"
+        centered
+        show={showPWModal}
+        onHide={() => {
+          setShowPWModal(false);
+        }}
+      >
+        <Modal.Header>
+          <Modal.Title>Password?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {" "}
+          <Form>
+            <Form.Group
+              className="mb-1"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Control
+                onChange={(e) => {
+                  handlePWChange(e);
+                }}
+                as="textarea"
+                rows={1}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => checkPW(pwInput)}>
+            Enter
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal
         onHide={() => {
           setShowAreYouSureDelete(false);
