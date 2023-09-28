@@ -68,7 +68,7 @@ body {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   color: white;
-  background-color: #f24a75;
+  background-color: #f24a7400;
   font-weight: 500;
   margin-bottom: 1vh;
 }
@@ -452,10 +452,14 @@ input:focus {
   position: sticky;
   top: 0;
   font-size: 1.2em;
+  letter-spacing: 0.02rem;
 }
 
 #theadStaffTodayTable {
   font-size: 1.1em;
+  background-color: #f24a75;
+  font-weight: 600;
+  letter-spacing: 0.02rem;
 }
 
 .toggleTextDiv {
