@@ -385,6 +385,7 @@ input:focus {
 #theadStaffTable {
   position: sticky;
   top: 0;
+  font-size: small;
 }
 
 .toggleTextDiv {
@@ -406,4 +407,29 @@ input:focus {
 .text-toggle-custom {
   background-color: #8d42be !important; /* Change background color to #8d42be !important; */
   border-color: #8d42be !important;
+}
+
+.formLabelStaffPage {
+  margin-bottom: 0 !important;
+  margin-top: 1rem;
+}
+
+.cancelButtonStaffModal {
+  position: absolute;
+  left: 0.8rem;
+}
+
+.deleteStaffMemberButton {
+  position: relative;
+  right: 48%;
+  width: 50%;
+  font-size: small !important;
+}
+
+.addStaffMemberButton {
+  position: absolute;
+  width: 80vw;
+  background-color: #142650 !important;
+  letter-spacing: 0.02rem;
+  border-radius: 6px !important;
 }
