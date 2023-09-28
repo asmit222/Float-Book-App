@@ -345,6 +345,8 @@ input:focus {
   background-color: #132142;
   display: flex;
   justify-content: center;
+  position: fixed;
+  top: 0;
 }
 
 .table-container2 {
