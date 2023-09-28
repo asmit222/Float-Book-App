@@ -521,7 +521,7 @@ function Staff() {
             Cancel
           </Button>
           <Button onClick={handleCreateStaffMember} variant="primary">
-            Create staff member
+            Add staff member
           </Button>
         </Modal.Footer>
       </Modal>
