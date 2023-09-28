@@ -554,6 +554,7 @@ function App() {
         <div className="leftContainer">
           <div className="search-box">
             <input
+              className="searchBoxInput"
               type="text"
               placeholder="Search"
               value={searchQuery}

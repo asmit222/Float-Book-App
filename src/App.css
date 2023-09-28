@@ -200,6 +200,12 @@ tr {
   border-top-left-radius: 5px !important;
 }
 
+.searchBoxInput {
+  background-color: rgb(241, 241, 241);
+  color: white;
+  border-radius: 5px;
+}
+
 input {
   width: 25vw;
   padding: 0;
@@ -305,7 +311,7 @@ input:focus {
   color: rgb(255, 255, 255);
   font-weight: 600;
   font-size: xx-small;
-  background-color: #ff6e92a2;
+  background-color: #8d42be;
   padding: 2px;
   padding-left: 8px;
   padding-right: 8px;
