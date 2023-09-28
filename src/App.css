@@ -427,6 +427,10 @@ input:focus {
   border: solid 1px rgba(255, 255, 255, 0.301) !important;
 }
 
+.staffTableTd:hover {
+  cursor: pointer;
+}
+
 .staffTableTd-night {
   background-color: #132142 !important;
   color: rgb(234, 236, 255) !important;
