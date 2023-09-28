@@ -350,13 +350,13 @@ input:focus {
 }
 
 .table-container2 {
-  height: 70vh;
+  height: 50vh;
   /* width: 92vw; */
   overflow-y: auto;
   overflow-x: auto;
   font-size: x-small;
   position: fixed;
-  bottom: 18vh;
+  bottom: 30vh;
   border-radius: 10px;
   max-width: 94vw;
 }
